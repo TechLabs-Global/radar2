@@ -1,0 +1,14 @@
+title = "Test Event"
+date = "2024-04-27T19:00:00+02:00"
+description = """
+Hi"""
+is_public = false
+is_mandatory = true
+show_resources = false
+forms = []
+resources = []
+
+[location]
+name = "KoFabrik in Bochum"
+address = "Stühmeyerstraße 33, 44787 Bochum"
+url = "https://maps.app.goo.gl/e3wjUvQmCFNY3GT47"
