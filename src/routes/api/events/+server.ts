@@ -12,7 +12,10 @@ export async function GET() {
         let events = await Promise.all(
             eventsFiles.map(async (file: string) => {
                 const content = await fs.readFile(path.resolve(eventsDir, file), "utf-8");
-                return toml.parse(content) as Event;
+                let event = toml.parse(content) as Event;
+                event.id = file.replace(".toml", "");
+                
+                return event;
             }
         ));
 
@@ -21,5 +24,7 @@ export async function GET() {
         return json(events);
     } catch (error) {
         console.error("Error reading events", error);
+
+        return json({ error: "Internal server error" }, { status: 500 });
     }
 }

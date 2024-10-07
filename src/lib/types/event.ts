@@ -5,6 +5,7 @@ export enum EventType {
 }
 
 export class Event {
+    id: string = "";
     title: string = "";
     date: Date = new Date();
     description: string = "";

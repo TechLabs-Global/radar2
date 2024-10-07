@@ -17,7 +17,7 @@
         <div class="pl-2"><i class="bi-exclamation-square-fill text-gray-300" /></div>
     {/if}
     <div class="flex flex-col pl-2">
-        <div class="font-bold text-sm">{event.title}</div>
+        <div class="font-bold text-sm"><a class="hover:underline" href="/event/{event.id}">{event.title}</a></div>
         {#if event.type == EventType.Event}
             <div class="text-sm">{date}</div>
         {:else}
