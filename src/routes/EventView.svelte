@@ -24,8 +24,6 @@
     let description = md.render(event.description);
     description = description.replace(/<ul>/g, '<ul class="flex flex-col gap-2 list-disc list-inside">');
     description = description.replace(/<ol>/g, '<ol class="flex flex-col gap-2 list-decimal list-inside">');
-
-    console.log(description);
 </script>
 
 <div class="border-solid border rounded-xl border-gray-300 shadow-lg px-8 pt-6 pb-8" class:bg-white={!milestone} class:bg-pink-100={milestone}>

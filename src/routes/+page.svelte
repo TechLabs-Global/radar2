@@ -2,6 +2,7 @@
     import EventList from './EventList.svelte';
 	import CurrentEvents from './CurrentEvents.svelte';
     import type { Event, Location } from "$lib/types/event";
+	import type { Term } from '$lib/types/term';
 
     async function fetchEvents() {
         const res = await fetch("/api/events");
