@@ -11,6 +11,10 @@
 </script>
 
 <div class="flex flex-col gap-8">
-    <EventView event={nextMilestone} />
-    <EventView event={nextEvent} />
+    {#if nextMilestone}
+        <EventView event={nextMilestone} />
+    {/if}
+    {#if nextEvent}
+        <EventView event={nextEvent} />
+    {/if}
 </div>

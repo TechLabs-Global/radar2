@@ -21,6 +21,7 @@
 
     let date = dayjs(event.date).format("MMM DD");
     let week = whichWeek(term, event);
+    let passed = dayjs().isAfter(dayjs(event.date));
 </script>
 
 <div class="flex flex-row max-w-60">
@@ -39,11 +40,11 @@
     {/if}
 
     <div class="flex flex-col pl-2">
-        <div class="font-bold text-sm"><a class="hover:underline" href="/event/{event.id}">{event.title}</a></div>
+        <div class="font-bold text-sm" class:line-through={passed} class:text-gray-600={passed}><a class="hover:underline" href="/event/{event.id}">{event.title}</a></div>
         {#if event.type == EventType.Event}
-            <div class="text-sm">{date}</div>
+            <div class="text-sm" class:text-gray-600={passed}>{date}</div>
         {:else}
-            <div class="text-sm">Due {date}</div>
+            <div class="text-sm" class:text-gray-600={passed}>Due {date}</div>
         {/if}
     </div>
 </div>
