@@ -1,60 +1,77 @@
 <script lang="ts">
     import dayjs from "dayjs";
+    import markdownit from "markdown-it";
     import advancedFormat from "dayjs/plugin/advancedFormat";
     import type { Event, Location } from "$lib/types/event";
+    import { EventType } from "$lib/types/event";
 
     dayjs.extend(advancedFormat);
 
     export let event: Event;
-    let date = dayjs(event.date).format("MMMM Do[, at] h:mm a");
+    const date = dayjs(event.date).format("MMMM Do[, at] h:mm a");
+    const milestone = event.type == EventType.Checkpoint || event.type == EventType.Cutoff;
     let dateText = "";
 
-    if (dayjs().isAfter(dayjs(event.date))) {
+    if (event.type == EventType.Checkpoint || event.type == EventType.Cutoff) {
+        dateText = "Due " + date;
+    } else if (dayjs().isAfter(dayjs(event.date))) {
         dateText = "Took place on " + date;
     } else {
         dateText = "Takes place on " + date;
     }
+
+    const md = markdownit();
+    let description = md.render(event.description);
+    description = description.replace(/<ul>/g, '<ul class="flex flex-col gap-2 list-disc list-inside">');
+    description = description.replace(/<ol>/g, '<ol class="flex flex-col gap-2 list-decimal list-inside">');
+
+    console.log(description);
 </script>
 
-<div class="m-4">
+<div class="border-solid border rounded-xl border-gray-300 shadow-lg px-8 pt-6 pb-8" class:bg-white={!milestone} class:bg-pink-100={milestone}>
     <div>
-        <div class="flex flex-row w-full mb-4">
-            <div class="flex flex-row gap-2 mx-auto">
-                <div><i class="bi-calendar-event-fill text-3xl text-techlabspink" /></div>
-                <div><i class="bi-people-fill text-3xl text-techlabspink" /></div>
-            </div>
+        <div class="flex flex-row w-full mb-2">
+            {#if event.type == EventType.Event}
+                <div class="flex flex-row gap-2 mx-auto">
+                    <div><i class="bi-calendar-event-fill text-3xl text-techlabspink" /></div>
+                    <div><i class="bi-people-fill text-3xl text-techlabspink" /></div>
+                </div>
+            {:else if event.type == EventType.Checkpoint}
+                <div class="flex flex-row gap-2 mx-auto">
+                    <div><i class="bi-check-square-fill text-3xl text-techlabspink" /></div>
+                </div>
+            {:else if event.type == EventType.Cutoff}
+                <div class="flex flex-row gap-2 mx-auto">
+                    <div><i class="bi-exclamation-square-fill text-3xl text-techlabspink" /></div>
+                </div>
+            {/if}
         </div>
-        <h1 class="text-2xl font-bold text-center">{event.title}</h1>
+        <h1 class="text-2xl font-bold text-center" class:text-techlabspink={milestone}>{event.title}</h1>
         <h2 class="text-lg font-light text-center">{dateText}</h2>
         {#if event.isMandatory}
-            <h2 class="text-lg font-light text-center">This is a mandatory event!</h2>
+            <h2 class="text-lg font-light text-center">This is a <span class="font-normal text-techlabspink">mandatory</span> event!</h2>
         {/if}
 
-        <p class="mt-8 mb-2">This is where your Digital Shaper Journey will start. We'll give you a summary on all you need to know to master your track.</p>
-        <p class="mb-2">Our topics include:</p>
-        <ol class="list-decimal mb-2">
-            <li>Key Facts regarding TechLabs, the Digital Shaper program, certificate and community</li>
-            <li>Administrative Topics – your onboarding to our toolset, communication channels, regular meetings & next steps</li>
-            <li>Track Get-Together – you'll meet other participants in the track you're planning to choose, and can ask the Track Leads for more information</li>
-        </ol>
-        <p>Our goal is for everybody to have a clear understanding about TechLabs Dortmund and your Journey!</p>
+        <div class="flex flex-col gap-4 mt-4">{@html description}</div>
     </div>
 
-    <div class="my-8">
-        <div class="flex flex-row items-center justify-center">
-            <div class="flex-auto"><hr class="border-black"></div>
-            <div class="px-4 text-xs font-bold uppercase">Location</div>
-            <div class="flex-auto"><hr class="border-black"></div>
-        </div>
-    </div>
-
-    <div class="border-2 rounded-lg shadow-sm p-4 hover:border-blue-600 hover:shadow-lg hover:text-blue-600 transition">
-        <a target="_blank" rel="noopener noreferrer" href="{event.location.url}" class="flex flex-row gap-4">
-            <div><i class="bi-map-fill" /></div>
-            <div class="flex flex-col">
-                <div class="font-bold">{event.location.name}</div>
-                <div class="font-light">{event.location.address}</div>
+    {#if event.type == EventType.Event}
+        <div class="my-8">
+            <div class="flex flex-row items-center justify-center">
+                <div class="flex-auto"><hr class="border-black"></div>
+                <div class="px-4 text-xs font-bold uppercase">Location</div>
+                <div class="flex-auto"><hr class="border-black"></div>
             </div>
-        </a>
-    </div>
+        </div>
+
+        <div class="border-2 rounded-lg shadow-sm p-4 hover:border-blue-600 hover:shadow-lg hover:text-blue-600 transition">
+            <a target="_blank" rel="noopener noreferrer" href="{event.location.url}" class="flex flex-row gap-4">
+                <div><i class="bi-map-fill" /></div>
+                <div class="flex flex-col">
+                    <div class="font-bold">{event.location.name}</div>
+                    <div class="font-light">{event.location.address}</div>
+                </div>
+            </a>
+        </div>
+    {/if}
 </div>

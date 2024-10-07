@@ -1,12 +1,16 @@
+export enum EventType {
+    Event = "event",
+    Checkpoint = "checkpoint",
+    Cutoff = "cutoff",
+}
+
 export class Event {
     title: string = "";
-    date: string = "";
+    date: Date = new Date();
     description: string = "";
+    type: EventType = EventType.Event;
     isPublic: boolean = true;
     isMandatory: boolean = false;
-    showResources: boolean = false;
-    forms: string[] = [];
-    resources: string[] = [];
     location: Location = new Location();
 }
 
