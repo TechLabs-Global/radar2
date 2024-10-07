@@ -1,5 +1,19 @@
-<script>
+<script lang="ts">
+    import dayjs from "dayjs";
+    import advancedFormat from "dayjs/plugin/advancedFormat";
+    import type { Event, Location } from "$lib/types/event";
 
+    dayjs.extend(advancedFormat);
+
+    export let event: Event;
+    let date = dayjs(event.date).format("MMMM Do[, at] h:mm a");
+    let dateText = "";
+
+    if (dayjs().isAfter(dayjs(event.date))) {
+        dateText = "Took place on " + date;
+    } else {
+        dateText = "Takes place on " + date;
+    }
 </script>
 
 <div class="m-4">
@@ -10,9 +24,11 @@
                 <div><i class="bi-people-fill text-3xl text-techlabspink" /></div>
             </div>
         </div>
-        <h1 class="text-2xl font-bold text-center">Semester Kick-Off Winterterm 24</h1>
-        <h2 class="text-lg font-light text-center">Takes place on October 18th, at 6:00 p.m.</h2>
-        <h2 class="text-lg font-light text-center">This is a mandatory event!</h2>
+        <h1 class="text-2xl font-bold text-center">{event.title}</h1>
+        <h2 class="text-lg font-light text-center">{dateText}</h2>
+        {#if event.isMandatory}
+            <h2 class="text-lg font-light text-center">This is a mandatory event!</h2>
+        {/if}
 
         <p class="mt-8 mb-2">This is where your Digital Shaper Journey will start. We'll give you a summary on all you need to know to master your track.</p>
         <p class="mb-2">Our topics include:</p>
@@ -27,7 +43,7 @@
     <div class="mt-8">
         <div class="flex flex-row items-center justify-center">
             <div class="flex-auto"><hr class="border-black"></div>
-            <div class="px-2 text-xs font-bold uppercase">Location</div>
+            <div class="px-4 text-xs font-bold uppercase">Location</div>
             <div class="flex-auto"><hr class="border-black"></div>
         </div>
     </div>

@@ -2,9 +2,9 @@ title = "Test Event"
 date = "2024-04-27T19:00:00+02:00"
 description = """
 Hi"""
-is_public = false
-is_mandatory = true
-show_resources = false
+isPublic = false
+isMandatory = true
+showResources = false
 forms = []
 resources = []
 

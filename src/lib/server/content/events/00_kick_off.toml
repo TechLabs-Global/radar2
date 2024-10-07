@@ -9,9 +9,9 @@ Our topics include:
 3. **Track Get-Together** – you'll meet other participants in the track you're planning to choose, and can ask the Track Leads for more information
 
 Our goal is for everybody to have a clear understanding about TechLabs Dortmund and your Journey!"""
-is_public = false
-is_mandatory = true
-show_resources = false
+isPublic = false
+isMandatory = true
+showResources = false
 forms = []
 resources = []
 
