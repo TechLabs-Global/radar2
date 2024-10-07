@@ -20,6 +20,10 @@
     {#await fetchEvent(eventId)}
         <div>Loading...</div>
     {:then event}
+        <a class="flex flex-row gap-1 text-gray-600 pb-4 hover:text-gray-800" href="/">
+            <i class="bi-chevron-left" />
+            <p>Back to the timeline</p>
+        </a>
         <EventView {event} />
     {:catch error}
         <div>Error: {error.message}</div>
