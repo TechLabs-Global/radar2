@@ -1,8 +1,17 @@
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+    @font-face {
+        font-family: "Livvic";
+        font-style: normal;
+        font-weight: 300;
+        src: url("/fonts/Livvic-Light.ttf");
+    }
+
     @font-face {
         font-family: "Livvic";
         font-style: normal;

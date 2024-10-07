@@ -4,7 +4,7 @@
 
 </script>
 
-<div class="flex flex-col gap-4">
+<div class="flex flex-col gap-8">
     <div class="bg-pink-200 border-solid border rounded-xl border-gray-300 shadow-lg p-6">
         eventlist eventlist eventlist<br>
         eventlist eventlist eventlist<br>

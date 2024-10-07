@@ -15,7 +15,7 @@
         <div>Loading...</div>
     {:then events}
         {#each events as event}
-            <EventListItem />
+            <EventListItem {event} />
         {/each}
     {:catch error}
         <div>Error: {error.message}</div>
