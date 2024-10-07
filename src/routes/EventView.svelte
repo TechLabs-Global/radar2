@@ -40,11 +40,21 @@
         <p>Our goal is for everybody to have a clear understanding about TechLabs Dortmund and your Journey!</p>
     </div>
 
-    <div class="mt-8">
+    <div class="my-8">
         <div class="flex flex-row items-center justify-center">
             <div class="flex-auto"><hr class="border-black"></div>
             <div class="px-4 text-xs font-bold uppercase">Location</div>
             <div class="flex-auto"><hr class="border-black"></div>
         </div>
+    </div>
+
+    <div class="border-2 rounded-lg shadow-sm p-4 hover:border-blue-600 hover:shadow-lg hover:text-blue-600 transition">
+        <a target="_blank" rel="noopener noreferrer" href="{event.location.url}" class="flex flex-row gap-4">
+            <div><i class="bi-map-fill" /></div>
+            <div class="flex flex-col">
+                <div class="font-bold">{event.location.name}</div>
+                <div class="font-light">{event.location.address}</div>
+            </div>
+        </a>
     </div>
 </div>
