@@ -26,9 +26,11 @@
     description = description.replace(/<ol>/g, '<ol class="flex flex-col gap-2 list-decimal list-inside">');
 </script>
 
-<div class="border-solid border rounded-xl border-gray-300 shadow-lg px-8 pt-6 pb-8" class:bg-white={!milestone} class:bg-pink-100={milestone}>
+<div class="relative border-solid border rounded-xl border-gray-300 shadow-lg px-8 pt-6 pb-8" class:bg-white={!milestone} class:bg-pink-100={milestone}>
+    <div class="absolute top-4 right-4 flex items-center justify-center w-6 h-6"><a class="text-gray-600 hover:text-techlabspink transition" target="_blank" rel="noopener noreferrer" href="/calendar/{event.id}"><i class="bi-calendar-plus-fill text-lg" /></a></div>
+    
     <div>
-        <div class="flex flex-row w-full mb-2">
+        <div class="flex flex-row items-center justify-center w-full mb-2">
             {#if event.type == EventType.Event}
                 <div class="flex flex-row gap-2 mx-auto">
                     <div><i class="bi-calendar-event-fill text-3xl text-techlabspink" /></div>
