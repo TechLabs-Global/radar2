@@ -44,7 +44,7 @@
                 </div>
             {/if}
         </div>
-        <h1 class="text-2xl font-bold text-center" class:text-techlabspink={milestone}>{event.title}</h1>
+        <h1 class="text-2xl font-bold text-center" class:text-techlabspink={milestone}><a class="hover:underline" href="/event/{event.id}">{event.title}</a></h1>
         <h2 class="text-lg font-light text-center">{dateText}</h2>
         {#if event.isMandatory}
             <h2 class="text-lg font-light text-center">This is a <span class="font-normal text-techlabspink">mandatory</span> event!</h2>
