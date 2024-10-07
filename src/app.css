@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    @font-face {
+        font-family: "Livvic";
+        font-style: normal;
+        font-weight: 400;
+        src: url("/fonts/Livvic-Regular.ttf");
+    }
+
+    @font-face {
+        font-family: "Livvic";
+        font-style: normal;
+        font-weight: 700;
+        src: url("/fonts/Livvic-Bold.ttf");
+    }
+}
