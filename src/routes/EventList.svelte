@@ -12,6 +12,9 @@
 
     dayjs.extend(isoWeek);
 
+    // Clone events
+    events = events.map(e => Object.assign({}, e));
+
     function firstEventInWeek(events: Event[], event: Event): boolean {
         if (events.length == 0) {
             return true;
