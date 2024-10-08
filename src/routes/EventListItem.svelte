@@ -1,5 +1,6 @@
 <script lang="ts">
     import dayjs from "dayjs";
+    import isoWeek from "dayjs/plugin/isoWeek";
     import type { Event, Location } from "$lib/types/event";
     import { EventType } from "$lib/types/event";
 	import type { Term } from "$lib/types/term";
@@ -7,16 +8,15 @@
     export let event: Event;
     export let term: Term;
     export let firstInWeek: boolean;
+    export let emptyWeek: boolean = false;
+
+    dayjs.extend(isoWeek);
 
     function whichWeek(term: Term, event: Event): number {
-        let termStartDate = dayjs(term.startDate);
-        let eventDate = dayjs(event.date);
+        const weekOffset = dayjs(term.startDate).isoWeek() + term.firstWeek;
+        const eventDate = dayjs(event.date);
 
-        if (eventDate.isBefore(termStartDate)) {
-            return term.firstWeek;
-        }
-
-        return eventDate.diff(termStartDate, "week") + term.firstWeek;
+        return eventDate.isoWeek() - weekOffset;
     }
 
     let date = dayjs(event.date).format("MMM DD");
@@ -31,20 +31,24 @@
         <div class="lg:min-w-11 lg:max-w-11 lg:min-h-11 lg:max-h-11"></div>
     {/if}
 
-    {#if event.type == EventType.Event}
-        <div class="pl-2"><i class="bi-calendar-event-fill text-gray-300" /></div>
-    {:else if event.type == EventType.Checkpoint}
-        <div class="pl-2"><i class="bi-check-square-fill text-gray-300" /></div>
-    {:else if event.type == EventType.Cutoff}
-        <div class="pl-2"><i class="bi-exclamation-square-fill text-gray-300" /></div>
-    {/if}
-
-    <div class="flex flex-col pl-2">
-        <div class="font-bold text-sm" class:line-through={passed} class:text-gray-600={passed}><a class="hover:underline" href="/event/{event.id}">{event.title}</a></div>
+    {#if !emptyWeek}
         {#if event.type == EventType.Event}
-            <div class="text-sm" class:text-gray-600={passed}>{date}</div>
-        {:else}
-            <div class="text-sm" class:text-gray-600={passed}>Due {date}</div>
+            <div class="pl-2"><i class="bi-calendar-event-fill text-gray-300" /></div>
+        {:else if event.type == EventType.Checkpoint}
+            <div class="pl-2"><i class="bi-check-square-fill text-gray-300" /></div>
+        {:else if event.type == EventType.Cutoff}
+            <div class="pl-2"><i class="bi-exclamation-square-fill text-gray-300" /></div>
         {/if}
-    </div>
+
+        <div class="flex flex-col pl-2">
+            <div class="font-bold text-sm" class:line-through={passed} class:text-gray-600={passed}><a class="hover:underline" href="/event/{event.id}">{event.title}</a></div>
+            {#if event.type == EventType.Event}
+                <div class="text-sm" class:text-gray-600={passed}>{date}</div>
+            {:else}
+                <div class="text-sm" class:text-gray-600={passed}>Due {date}</div>
+            {/if}
+        </div>
+    {:else}
+        <div class="pl-2"><i class="bi-dash-lg text-gray-300" /></div>
+    {/if}
 </div>

@@ -22,7 +22,8 @@
 		</main>
 
 		<footer class="bottom-0 w-full text-center mt-12">
-			<p class="text-sm text-gray-600">TechLabs Radar 2.0 created by TechLabs Düsseldorf e. V.</p>
+			<p class="text-sm text-gray-600">TechLabs Radar 2.0</p>
+			<p class="text-sm text-gray-600">Created by TechLabs Düsseldorf e. V. & TechLabs Ruhr e. V.</p>
 			<p class="text-sm text-gray-600">GitHub – Contact – Imprint</p>
 		</footer>
 	{:catch error}
