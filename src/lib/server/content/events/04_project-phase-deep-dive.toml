@@ -1,0 +1,17 @@
+title = "Project Phase Deep-Dive"
+date = 2024-06-07T19:00:00Z
+description = """
+This is a mandatory event!
+
+With the project phase getting closer we want to give you a more in-depth overview over the upcoming weeks.
+
+We will talk about the general outline and we will provide you with all the necessary knowledge and information you will to complete your project.
+You will also get the chance to brainstorm for possible project ideas."""
+type = "event"
+isPublic = false
+isMandatory = true
+
+[location]
+name = "TBD"
+address = "TBD"
+url = "TBD"

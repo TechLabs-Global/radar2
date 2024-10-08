@@ -1,0 +1,5 @@
+title = "Hatching Phase"
+date = 2024-05-12T12:59:59Z
+description = """
+You should have finished at least **8h** of your track until the deadline. __This is a cutting point__: if you fail to complete it, you cannot participate any longer."""
+type = "cutoff"

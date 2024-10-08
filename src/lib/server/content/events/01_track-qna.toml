@@ -1,0 +1,12 @@
+title = "Open Track Q&A"
+date = 2024-04-30T19:00:00Z
+description = """
+Are you lost or do you have questions regarding your track? We've got you covered! Join us for an open Q&A session where you can ask all your questions and get help from our mentors."""
+type = "event"
+isPublic = false
+isMandatory = false
+
+[location]
+name = "Meeting = Track Q&A"
+address = "online"
+url = "https://around.co/r/j90qiekw"

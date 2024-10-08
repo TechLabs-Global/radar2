@@ -1,0 +1,15 @@
+title = "Project Kick-Off & Agile/Project Management Workshop"
+date = 2024-07-20T11:00:00Z
+description = """
+On this event we will officially kick-off the project phase. It will include updates about the Transition Period, updates from all teams, and some pointers about project management.
+
+We will also have a workshop about agile and project management, which will give you the necessary knowledge to successfully manage your project during the project phase.
+The workshop is a hands-on training session that introduces you to Agile development methodologies, promoting collaboration and adaptability in a concise and interactive format."""
+type = "event"
+isPublic = false
+isMandatory = true
+
+[location]
+name = "KoFabrik in Bochum"
+address = "Stühmeyerstraße 33, 44787 Bochum"
+url = "https://maps.app.goo.gl/e3wjUvQmCFNY3GT47"

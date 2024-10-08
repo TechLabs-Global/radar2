@@ -1,0 +1,12 @@
+title = "Data Science & Backend"
+date = 2024-08-08T19:00:00Z
+description = """
+We will give you an introduction on how to connect your Data Science insights to your backend as well as connecting your backend to your frontend. Learn the basics of FastAPI in Python."""
+type = "event"
+isPublic = false
+isMandatory = false
+
+[location]
+name = "TBD"
+address = "TBD"
+url = "TBD"

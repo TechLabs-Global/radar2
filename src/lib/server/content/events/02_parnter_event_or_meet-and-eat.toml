@@ -1,0 +1,15 @@
+title = "Meet&Eat"
+date = 2024-05-09T19:00:00Z
+description = """
+One of the most important aspects of the Digital Shaper Program is the community. So we want to give you a platform to connect.
+
+This is why this event is all about getting to know each other in a 'Meet&Eat' manner. You will have several chats with other participants, talking about different topics e.g. hobbies and personal interests.
+We are looking forward to you getting to know each other a little bit more and having a fun time together."""
+type = "event"
+isPublic = false
+isMandatory = false
+
+[location]
+name = "TBD"
+address = "TBD"
+url = "TBD"

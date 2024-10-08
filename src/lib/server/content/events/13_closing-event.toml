@@ -1,0 +1,14 @@
+title = "Project Pitches & Closing Ceremony"
+date = 2024-10-18T18:00:00Z
+description = """
+Unfortunately, all good things have to come to an end. This event will be the closing event of our journey, focusing on what you have achieved over the past months!
+
+We will also have a little closing ceremony, announce a winner and inform you about the next steps to receive your Digital Shaper Certificate!"""
+type = "event"
+isPublic = false
+isMandatory = true
+
+[location]
+name = "KoFabrik in Bochum"
+address = "Stühmeyerstraße 33, 44787 Bochum"
+url = "https://maps.app.goo.gl/e3wjUvQmCFNY3GT47"

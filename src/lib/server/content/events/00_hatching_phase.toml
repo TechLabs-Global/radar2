@@ -1,5 +1,0 @@
-title = "Hatching Phase"
-date = 2025-04-12T23:59:59Z
-description = ""
-# Either cutoff or checkpoint
-type = "cutoff"

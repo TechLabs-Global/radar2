@@ -1,0 +1,14 @@
+title = "Midterm Project Pitches"
+date = 2024-08-30T19:00:00Z
+description = """
+Every team should give a short project presentation pitch of the current progress, issues you have faced so far and the future goals and tasks.
+
+The goal is to help you get a better overview of other projects, get some inspiration and guidance and to help each other out with potential issues."""
+type = "event"
+isPublic = false
+isMandatory = true
+
+[location]
+name = "TBD"
+address = "TBD"
+url = "TBD"
