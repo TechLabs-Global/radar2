@@ -3,7 +3,7 @@ import fs from 'fs/promises';
 import { access } from 'fs/promises';
 import path from 'path';
 import toml from 'toml';
-import type { Term } from '$lib/types/term.js';
+import type { Term } from '$lib/types/term.ts';
 
 export async function GET(e) {
     try {
