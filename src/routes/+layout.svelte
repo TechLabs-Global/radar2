@@ -11,7 +11,7 @@
     }
 </script>
 
-<div class="app static text-gray-800 bg-stone-50 min-h-screen h-full pb-4">
+<div class="app static min-h-screen h-full pb-4">
 	{#await fetchTerm()}
 		<div>Loading...</div>
 	{:then term}
