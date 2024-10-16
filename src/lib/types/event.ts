@@ -5,9 +5,9 @@ export enum EventType {
 }
 
 export class Event {
-    id: string = "";
-    title: string = "";
-    date: Date = new Date();
+    id!: string;
+    title!: string;
+    date!: Date;
     description: string = "";
     type: EventType = EventType.Event;
     isPublic: boolean = true;
@@ -16,7 +16,7 @@ export class Event {
 }
 
 export class Location {
-    name: string = "";
+    name!: string;
     address: string = "";
     url: string = "";
 }
