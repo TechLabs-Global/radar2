@@ -15,8 +15,14 @@ export class Event {
     location: Location = new Location();
 }
 
+export enum LocationType {
+    Offline = "offline",
+    Online = "online",
+}
+
 export class Location {
     name!: string;
     address: string = "";
     url: string = "";
+    type: LocationType = LocationType.Offline;
 }
