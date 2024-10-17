@@ -8,13 +8,13 @@
     dayjs.extend(advancedFormat);
 
     export let event: Event;
-    const date = dayjs(event.eventDate).format("MMMM Do[, at] h:mm a");
+    const date = dayjs(event.date).format("MMMM Do[, at] h:mm a");
     const milestone = event.type == EventType.Checkpoint || event.type == EventType.Cutoff;
     let dateText = "";
 
     if (event.type == EventType.Checkpoint || event.type == EventType.Cutoff) {
         dateText = "Due " + date;
-    } else if (dayjs().isAfter(dayjs(event.eventDate))) {
+    } else if (dayjs().isAfter(dayjs(event.date))) {
         dateText = "Took place on " + date;
     } else {
         dateText = "Takes place on " + date;
