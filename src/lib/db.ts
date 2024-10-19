@@ -1,15 +1,14 @@
-import postgres from "postgres";
-import * as dotenv from "dotenv";
+import postgres from 'postgres';
 
-dotenv.config();
+import { dbHost, dbName, dbPassword, dbPort, dbUser } from './environment';
 
 const sql = postgres({
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    database: process.env.DB_NAME,
-    username: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    transform: postgres.camel,
+	host: dbHost,
+	port: dbPort,
+	database: dbName,
+	username: dbUser,
+	password: dbPassword,
+	transform: postgres.camel
 });
 
 export default sql;
