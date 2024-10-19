@@ -158,3 +158,12 @@ VALUES ('Project Phase', 'This is prime time! You imagine and implement a protot
 
 INSERT INTO phases (title, description, date_from, date_to)
 VALUES ('Closing Week', 'You finish up your prototype and submit the final result to us. We organize a closing ceremony where you will pitch your final results.', '2024-10-14 00:00:00', '2024-10-18 00:00:00');
+
+
+-- CONFIG
+
+INSERT INTO config VALUES ('location', 'DUS');
+INSERT INTO config VALUES ('term.title', 'Summer Term 2024');
+INSERT INTO config VALUES ('term.batchNumber', '10');
+INSERT INTO config VALUES ('term.startDate', '2024-04-27 00:00:00');
+INSERT INTO config VALUES ('term.firstWeek', '0');
