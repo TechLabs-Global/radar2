@@ -25,7 +25,7 @@ export enum LocationType {
 
 export class Location {
     name!: string;
-    address: string = "";
-    url: string = "";
-    type: LocationType = LocationType.Offline;
+	address: string = '';
+	url: string = '';
+	type!: LocationType;
 }
