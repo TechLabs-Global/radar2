@@ -9,6 +9,7 @@ import { dbHost, dbName, dbPassword, dbPort, dbUser, initDb, seedDb } from './en
 
 import dbSchema from './schemas/tables.sql?raw';
 import dbSeed from './schemas/test_data.sql?raw';
+import { Location } from './types/location';
 
 class DB {
 	private client: ReturnType<typeof postgres>;
@@ -151,6 +152,48 @@ class DB {
 		}
 	}
 
+	public async location(): Promise<Location> {
+		try {
+			const rawLocation = await this.client<ConfigItem[]>`
+				SELECT * FROM config
+				WHERE key like 'location.%'
+			`;
+
+			if (!rawLocation) {
+				error(404, {
+					message: 'Location not found'
+				});
+			}
+
+			let location = new Location();
+
+			rawLocation.forEach(({ key, value }) => {
+				switch (key) {
+					case 'location.name':
+						location.name = value;
+						break;
+					case 'location.logo':
+						location.logo = value;
+						break;
+				}
+			});
+
+			if (!location.name || !location.logo) {
+				error(404, {
+					message: 'Location not found'
+				});
+			}
+
+			return location;
+		} catch (e) {
+			console.error('Error reading location', e);
+
+			error(500, {
+				message: 'Internal server error'
+			});
+		}
+	}
+
 	public async term(): Promise<Term> {
 		try {
 			const rawConfig = await this.client<ConfigItem[]>`
@@ -164,7 +207,7 @@ class DB {
 				});
 			}
 
-			const term = new Term();
+			let term = new Term();
 
 			rawConfig.forEach(({ key, value }) => {
 				switch (key) {

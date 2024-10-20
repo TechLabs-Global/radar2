@@ -9,8 +9,10 @@
         const resEvents = await fetch("/api/events");
         const events: Event[] = await resEvents.json();
 
-        const resTerm = await fetch("/api/term");
-        const term: Term = await resTerm.json();
+        const resInstance = await fetch("/api/instance");
+        const resInstanceJson = await resInstance.json();
+		// const location: Location = resInstanceJson.location;
+        const term: Term = resInstanceJson.term;
 
         const resPhases = await fetch("/api/phases");
         const phases: Phase[] = await resPhases.json();

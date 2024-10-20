@@ -1,21 +1,24 @@
 <script lang="ts">
 	import Header from './Header.svelte';
 	import '../app.css';
+	import type { Location } from '$lib/types/location';
 	import type { Term } from '$lib/types/term';
 
 	async function fetchTerm() {
-        const res = await fetch("/api/term");
-        const term: Term = await res.json();
+        const res = await fetch("/api/instance");
+		const resJson = await res.json();
+		const location: Location = resJson.location;
+        const term: Term = resJson.term;
 
-        return term;
+        return [location, term];
     }
 </script>
 
 <div class="app static min-h-screen h-full pb-4">
 	{#await fetchTerm()}
 		<div>Loading...</div>
-	{:then term}
-		<Header {term} />
+	{:then [location, term]}
+		<Header {location} {term} />
 
 		<main>
 			<slot />
