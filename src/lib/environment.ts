@@ -8,4 +8,4 @@ export const dbName = envVar.get('DB_NAME').default('radar').asString();
 
 export const dbUser = envVar.get('DB_USER').default('radar').asString();
 
-export const dbPassword = envVar.get('DB_PASSWORD').default('radar').asString();
+export const dbPassword = envVar.get('DB_PASSWORD').default('radar123').asString();
