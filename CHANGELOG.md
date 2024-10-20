@@ -1,3 +1,12 @@
+# [0.4.0](https://github.com/TechLabs-Global/radar2/compare/0.3.0...0.4.0) (2024-10-20)
+
+
+### Features
+
+* add online event ([#32](https://github.com/TechLabs-Global/radar2/issues/32)) ([45d865e](https://github.com/TechLabs-Global/radar2/commit/45d865ee880a8daba10f68771969e10268346853))
+
+
+
 # [0.3.0](https://github.com/TechLabs-Global/radar2/compare/0.2.0...0.3.0) (2024-10-20)
 
 
