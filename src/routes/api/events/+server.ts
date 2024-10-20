@@ -1,12 +1,9 @@
-import { error, json } from '@sveltejs/kit';
-import fs from 'fs/promises';
-import path from 'path';
-import toml from 'toml';
-import { Event, type Location } from '$lib/types/event';
-import sql, { DB } from '$lib/db';
+import { json } from '@sveltejs/kit';
+import database from '$lib/db';
 
 export async function GET() {
-    const events = await DB.events();
+	const db = await database();
+	const events = await db.events();
 
-    return json(events);
+	return json(events);
 }

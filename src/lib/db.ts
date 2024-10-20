@@ -1,27 +1,43 @@
 import postgres from 'postgres';
-import { error } from "@sveltejs/kit";
-import { Event, Location } from "$lib/types/event";
-import type { Phase } from "./types/phase";
-import { Term } from "./types/term";
-import type { ConfigItem } from "./types/config";
+import { error } from '@sveltejs/kit';
+import { Event } from '$lib/types/event';
 
-import { dbHost, dbName, dbPassword, dbPort, dbUser } from './environment';
+import type { Phase } from './types/phase';
+import { Term } from './types/term';
+import type { ConfigItem } from './types/config';
+import { dbHost, dbName, dbPassword, dbPort, dbUser, initDb, seedDb } from './environment';
 
-const sql = postgres({
-	host: dbHost,
-	port: dbPort,
-	database: dbName,
-	username: dbUser,
-	password: dbPassword,
-	transform: postgres.camel
-});
+import dbSchema from './schemas/tables.sql?raw';
+import dbSeed from './schemas/test_data.sql?raw';
 
-export default sql;
+class DB {
+	private client: ReturnType<typeof postgres>;
 
-export class DB {
-    static async events(): Promise<any[]> {
-        try {
-            const rawEvents = await sql<any[]>`
+	constructor(host: string, port: number, database: string, username: string, password: string) {
+		this.client = postgres({
+			host,
+			port,
+			database,
+			username,
+			password,
+			transform: postgres.camel
+		});
+	}
+
+	public async init() {
+		if (initDb) {
+			console.log('Initializing database...');
+			await this.client.unsafe(dbSchema);
+		}
+		if (seedDb) {
+			console.log('Seeding database...');
+			await this.client.unsafe(dbSeed);
+		}
+	}
+
+	public async events(): Promise<Event[]> {
+		try {
+			const rawEvents = await this.client`
                 SELECT
                     events.*,
                     locations.name AS location_name,
@@ -32,44 +48,42 @@ export class DB {
                 ORDER BY event_date ASC
             `;
 
-            const events = rawEvents.map((rawEvent) => {
-                let event = {
-                    id: rawEvent.id,
-                    title: rawEvent.title,
-                    date: rawEvent.eventDate,
-                    description: rawEvent.description,
-                    type: rawEvent.type,
-                    isPublic: rawEvent.isPublic,
-                    isMandatory: rawEvent.isMandatory,
-                    location: {
-                        name: rawEvent.locationName,
-                        address: rawEvent.locationAddress,
-                        url: rawEvent.locationUrl,
-                    } as Location,
-                } as Event;
+			const events: Event[] = rawEvents.map((rawEvent) => ({
+				id: rawEvent.id,
+				title: rawEvent.title,
+				date: rawEvent.eventDate,
+				description: rawEvent.description,
+				type: rawEvent.type,
+				isPublic: rawEvent.isPublic,
+				isMandatory: rawEvent.isMandatory,
+				location: {
+					name: rawEvent.locationName,
+					address: rawEvent.locationAddress,
+					url: rawEvent.locationUrl,
+					type: rawEvent.locationType
+				}
+			}));
 
-                return event;
-            });
+			// Why this check? Returning an empty array is not an error
+			if (!events) {
+				error(404, {
+					message: 'Events not found'
+				});
+			}
 
-            if (!events) {
-                error(404, {
-                    message: "Events not found",
-                });
-            }
+			return events;
+		} catch (e) {
+			console.error('Error reading events', e);
 
-            return events;
-        } catch (e) {
-            console.error("Error reading events", e);
+			error(500, {
+				message: 'Internal server error'
+			});
+		}
+	}
 
-            error(500, {
-                message: "Internal server error",
-            });
-        }
-    }
-
-    static async event(eventId: string): Promise<Event> {
-        try {
-            const rawEvents = await sql<any[]>`
+	public async event(eventId: string): Promise<Event> {
+		try {
+			const rawEvents = await this.client`
                 SELECT
                     events.*,
                     locations.name AS location_name,
@@ -81,110 +95,124 @@ export class DB {
                     AND events.id = ${eventId}
                 ORDER BY event_date ASC
             `;
-    
-            const events = rawEvents.map((rawEvent) => {
-                let event = {
-                    id: rawEvent.id,
-                    title: rawEvent.title,
-                    date: rawEvent.eventDate,
-                    description: rawEvent.description,
-                    type: rawEvent.type,
-                    isPublic: rawEvent.isPublic,
-                    isMandatory: rawEvent.isMandatory,
-                    location: {
-                        name: rawEvent.locationName,
-                        address: rawEvent.locationAddress,
-                        url: rawEvent.locationUrl,
-                    } as Location,
-                } as Event;
-    
-                return event;
-            });
-    
-            if (!events || events.length === 0) {
-                error(404, {
-                    message: "Event not found",
-                });
-            }
-        
-            return events[0];
-        } catch (e) {
-            console.error("Error reading events", e);
-    
-            error(500, {
-                message: "Internal server error",
-            });
-        }
-    }
 
-    static async phases(): Promise<Phase[]> {
-        try {
-            const phases = await sql<Phase[]>`
+			const events: Event[] = rawEvents.map((rawEvent) => ({
+				id: rawEvent.id,
+				title: rawEvent.title,
+				date: rawEvent.eventDate,
+				description: rawEvent.description,
+				type: rawEvent.type,
+				isPublic: rawEvent.isPublic,
+				isMandatory: rawEvent.isMandatory,
+				location: {
+					name: rawEvent.locationName,
+					address: rawEvent.locationAddress,
+					url: rawEvent.locationUrl,
+					type: rawEvent.locationType
+				}
+			}));
+
+			if (!events || events.length === 0) {
+				error(404, {
+					message: 'Event not found'
+				});
+			}
+
+			return events[0];
+		} catch (e) {
+			console.error('Error reading events', e);
+
+			error(500, {
+				message: 'Internal server error'
+			});
+		}
+	}
+
+	public async phases(): Promise<Phase[]> {
+		try {
+			const phases = await this.client<Phase[]>`
                 SELECT * FROM phases
                 ORDER BY date_from ASC
             `;
-    
-            if (!phases) {
-                error(404, {
-                    message: "Phases not found",
-                });
-            }
-        
-            return phases;
-        } catch (e) {
-            console.error("Error reading phases", e);
-    
-            error(500, {
-                message: "Internal server error",
-            });
-        }
-    }
 
-    static async term(): Promise<Term> {
-        try {
-            const rawConfig = await sql<ConfigItem[]>`
+			if (!phases) {
+				error(404, {
+					message: 'Phases not found'
+				});
+			}
+
+			return phases;
+		} catch (e) {
+			console.error('Error reading phases', e);
+
+			error(500, {
+				message: 'Internal server error'
+			});
+		}
+	}
+
+	public async term(): Promise<Term> {
+		try {
+			const rawConfig = await this.client<ConfigItem[]>`
                 SELECT * FROM config
                 WHERE key LIKE 'term.%'
             `;
-    
-            if (!rawConfig) {
-                error(404, {
-                    message: "Config not found",
-                });
-            }
-    
-            let term = new Term();
-    
-            rawConfig.forEach(({key, value}) => {
-                switch (key) {
-                    case "term.title":
-                        term.title = value;
-                        break;
-                    case "term.batchNumber":
-                        term.batchNumber = parseInt(value);
-                        break;
-                    case "term.startDate":
-                        term.startDate = new Date(value);
-                        break;
-                    case "term.firstWeek":
-                        term.firstWeek = parseInt(value);
-                        break;
-                }
-            });
-    
-            if (!term.title || term.batchNumber === undefined || !term.startDate || term.firstWeek === undefined) {
-                error(404, {
-                    message: "Term not found",
-                });
-            }
-    
-            return term;
-        } catch (e) {
-            console.error("Error reading term config", e);
-    
-            error(500, {
-                message: "Internal server error",
-            });
-        }
-    }
+
+			if (!rawConfig) {
+				error(404, {
+					message: 'Config not found'
+				});
+			}
+
+			const term = new Term();
+
+			rawConfig.forEach(({ key, value }) => {
+				switch (key) {
+					case 'term.title':
+						term.title = value;
+						break;
+					case 'term.batchNumber':
+						term.batchNumber = parseInt(value);
+						break;
+					case 'term.startDate':
+						term.startDate = new Date(value);
+						break;
+					case 'term.firstWeek':
+						term.firstWeek = parseInt(value);
+						break;
+				}
+			});
+
+			if (
+				!term.title ||
+				term.batchNumber === undefined ||
+				!term.startDate ||
+				term.firstWeek === undefined
+			) {
+				error(404, {
+					message: 'Term not found'
+				});
+			}
+
+			return term;
+		} catch (e) {
+			console.error('Error reading term config', e);
+
+			error(500, {
+				message: 'Internal server error'
+			});
+		}
+	}
 }
+
+let databaseSingleton: DB;
+const initializeDb = async () => {
+	if (!databaseSingleton) {
+		databaseSingleton = new DB(dbHost, dbPort, dbName, dbUser, dbPassword);
+		await databaseSingleton.init();
+	}
+	return databaseSingleton;
+};
+
+export default initializeDb;
+export type { DB };

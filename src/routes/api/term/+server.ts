@@ -1,14 +1,9 @@
-import { error, json } from '@sveltejs/kit';
-import fs from 'fs/promises';
-import { access } from 'fs/promises';
-import path from 'path';
-import toml from 'toml';
-import { Term } from '$lib/types/term';
-import sql, { DB } from '$lib/db';
-import type { ConfigItem } from '$lib/types/config';
+import { json } from '@sveltejs/kit';
+import database from '$lib/db';
 
-export async function GET(e) {
-    const term = await DB.term();
+export async function GET() {
+	const db = await database();
+	const term = await db.term();
 
-    return json(term);
+	return json(term);
 }

@@ -22,6 +22,8 @@ services:
       DB_NAME: radar
       DB_USER: radar
       DB_PASSWORD: radar123
+      INIT_DB: true
+      SEED_DB: true
     depends_on:
       - postgres
 
