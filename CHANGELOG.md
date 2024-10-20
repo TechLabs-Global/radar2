@@ -1,3 +1,12 @@
+# [0.3.0](https://github.com/TechLabs-Global/radar2/compare/0.2.0...0.3.0) (2024-10-20)
+
+
+### Features
+
+* dynamic TechLabs location logo ([#31](https://github.com/TechLabs-Global/radar2/issues/31)) ([51e61f0](https://github.com/TechLabs-Global/radar2/commit/51e61f065e6e6dbd0e2c1fbc0c96dd3e46115e18))
+
+
+
 # [0.2.0](https://github.com/TechLabs-Global/radar2/compare/0.1.0...0.2.0) (2024-10-20)
 
 
