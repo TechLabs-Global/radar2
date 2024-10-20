@@ -162,7 +162,8 @@ VALUES ('Closing Week', 'You finish up your prototype and submit the final resul
 
 -- CONFIG
 
-INSERT INTO config VALUES ('location', 'DUS') ON CONFLICT (key) DO NOTHING;
+INSERT INTO config VALUES ('location.name', 'Düsseldorf') ON CONFLICT (key) DO NOTHING;
+INSERT INTO config VALUES ('location.logo', 'logo-duesseldorf.svg') ON CONFLICT (key) DO NOTHING;;
 INSERT INTO config VALUES ('term.title', 'Summer Term 2024') ON CONFLICT (key) DO NOTHING;
 INSERT INTO config VALUES ('term.batchNumber', '10') ON CONFLICT (key) DO NOTHING;
 INSERT INTO config VALUES ('term.startDate', '2024-04-27 00:00:00 +02:00') ON CONFLICT (key) DO NOTHING;
