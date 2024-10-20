@@ -1,6 +1,8 @@
 <script lang="ts">
+	import type { Location } from "$lib/types/location";
 	import type { Term } from "$lib/types/term";
 
+	export let location: Location;
 	export let term: Term;
 </script>
 
@@ -8,7 +10,7 @@
 	<div class="flex flex-row items-center justify-center w-full">
 		<div class="flex flex-row mr-4">
 			<img src="/logos/logo.svg" alt="TechLabs Logo" class="h-12" />
-			<img src="/logos/logo-dus.svg" alt="TechLabs Düsseldorf Logo" class="h-12" />
+			<img src="/logos/{location.logo}" alt="TechLabs {location.name} Logo" class="h-12" />
 		</div>
 		<div class="font-bold">{term.title}</div>
 		<div class="flex-auto"></div>
