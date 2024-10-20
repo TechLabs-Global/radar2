@@ -1,27 +1,14 @@
-import { json } from '@sveltejs/kit';
+import { error, json } from '@sveltejs/kit';
 import fs from 'fs/promises';
 import { access } from 'fs/promises';
 import path from 'path';
 import toml from 'toml';
-import type { Term } from '$lib/types/term.ts';
+import { Term } from '$lib/types/term';
+import sql, { DB } from '$lib/db';
+import type { ConfigItem } from '$lib/types/config';
 
 export async function GET(e) {
-    try {
-        const termFile = path.resolve("./src/lib/server/content/term.toml");
+    const term = await DB.term();
 
-        try {
-            await access(termFile);
-        } catch (error) {
-            return json({ error: "Term configuration not found" }, { status: 404 });
-        }
-
-        const content = await fs.readFile(termFile, "utf-8");
-        const term = toml.parse(content) as Term;
-
-        return json(term);
-    } catch (error) {
-        console.error("Error reading term", error);
-        
-        return json({ error: "Internal server error" }, { status: 500 });
-    }
+    return json(term);
 }

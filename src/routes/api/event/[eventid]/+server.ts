@@ -1,39 +1,26 @@
-import { json } from '@sveltejs/kit';
+import { error, json } from '@sveltejs/kit';
 import fs from 'fs/promises';
 import { access } from 'fs/promises';
 import path from 'path';
 import toml from 'toml';
 import type { Event, Location } from '$lib/types/event';
+import sql, { DB } from '$lib/db';
 
 export async function GET(e) {
-    const eventId = e.params.eventid;
+    const eventId: string = e.params.eventid;
 
     if (!validateEventId(eventId)) {
-        return json({ error: "Invalid event ID" }, { status: 400 });
+        error(400, {
+            message: "Invalid event ID",
+        });
     }
 
-    try {
-        const eventsDir = path.resolve("./src/lib/server/content/events");
-        const eventFile = path.resolve(eventsDir, `${eventId}.toml`);
+    const event = await DB.event(eventId);
 
-        try {
-            await access(eventFile);
-        } catch (error) {
-            return json({ error: "Event not found" }, { status: 404 });
-        }
-
-        const content = await fs.readFile(eventFile, "utf-8");
-        let event = toml.parse(content) as Event;
-        event.id = eventId;
-
-        return json(event);
-    } catch (error) {
-        console.error("Error reading events", error);
-        
-        return json({ error: "Internal server error" }, { status: 500 });
-    }
+    return json(event);
 }
 
 function validateEventId(eventId: string): boolean {
-    return /^[0-9]+_[a-z0-9-_]+$/.test(eventId);
+    // Check if the event ID is a UUID
+    return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(eventId);
 }

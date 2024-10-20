@@ -1,6 +1,7 @@
 export class Phase {
-    title: string = "";
+    id!: string;
+    title!: string;
     description: string = "";
-    dateFrom: Date = new Date();
-    dateTo: Date = new Date();
+    dateFrom!: Date;
+    dateTo!: Date;
 }

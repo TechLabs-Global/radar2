@@ -38,6 +38,7 @@
 
         if (weekEvents.length == 0) {
             let emptyEvent = new Event();
+            emptyEvent.id = "";
             emptyEvent.date = dayjs().isoWeek(week + 1).startOf("week").toDate();
 
             events.splice(lastIndex, 0, emptyEvent);
