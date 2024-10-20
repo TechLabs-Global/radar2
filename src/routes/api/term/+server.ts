@@ -44,7 +44,7 @@ export async function GET(e) {
                 message: "Term not found",
             });
         }
-    
+
         return json(term);
     } catch (e) {
         console.error("Error reading term config", e);
