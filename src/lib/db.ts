@@ -42,7 +42,8 @@ class DB {
                     events.*,
                     locations.name AS location_name,
                     locations.address AS location_address,
-                    locations.url AS location_url
+                    locations.url AS location_url,
+					locations.type AS location_type
                 FROM events
                 JOIN locations ON events.location_id = locations.id
                 ORDER BY event_date ASC
@@ -88,7 +89,8 @@ class DB {
                     events.*,
                     locations.name AS location_name,
                     locations.address AS location_address,
-                    locations.url AS location_url
+                    locations.url AS location_url,
+					locations.type AS location_type
                 FROM events
                 JOIN locations
                     ON events.location_id = locations.id

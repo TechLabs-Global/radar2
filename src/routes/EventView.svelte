@@ -2,8 +2,8 @@
     import dayjs from "dayjs";
     import markdownit from "markdown-it";
     import advancedFormat from "dayjs/plugin/advancedFormat";
-    import type { Event, Location } from "$lib/types/event";
-    import { EventType } from "$lib/types/event";
+    import type { Event } from "$lib/types/event";
+    import { EventType, LocationType } from "$lib/types/event";
 
     dayjs.extend(advancedFormat);
 
@@ -34,7 +34,11 @@
             {#if event.type == EventType.Event}
                 <div class="flex flex-row gap-2 mx-auto">
                     <div><i class="bi-calendar-event-fill text-3xl text-techlabspink" /></div>
+                    {#if event.location.type == LocationType.Online}
+                    <div><i class="bi-laptop-fill text-3xl text-techlabspink" /></div>
+                    {:else if event.location.type == LocationType.Offline}
                     <div><i class="bi-people-fill text-3xl text-techlabspink" /></div>
+                    {/if}
                 </div>
             {:else if event.type == EventType.Checkpoint}
                 <div class="flex flex-row gap-2 mx-auto">
@@ -66,10 +70,16 @@
 
         <div class="border-2 rounded-lg shadow-sm p-4 hover:border-blue-600 hover:shadow-lg hover:text-blue-600 transition">
             <a target="_blank" rel="noopener noreferrer" href="{event.location.url}" class="flex flex-row gap-4">
+                {#if event.location.type == LocationType.Online}
+                <div><i class="bi-display-fill" /></div>
+                {:else if event.location.type == LocationType.Offline}
                 <div><i class="bi-map-fill" /></div>
+                {/if}
                 <div class="flex flex-col">
                     <div class="font-bold">{event.location.name}</div>
+                    {#if event.location.type == LocationType.Offline}
                     <div class="font-light">{event.location.address}</div>
+                    {/if}
                 </div>
             </a>
         </div>
