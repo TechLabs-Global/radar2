@@ -162,7 +162,8 @@ VALUES ('Closing Week', 'You finish up your prototype and submit the final resul
 
 -- CONFIG
 
-INSERT INTO config VALUES ('location', 'DUS');
+INSERT INTO config VALUES ('location.name', 'Düsseldorf');
+INSERT INTO config VALUES ('location.logo', 'logo-duesseldorf.svg');
 INSERT INTO config VALUES ('term.title', 'Summer Term 2024');
 INSERT INTO config VALUES ('term.batchNumber', '10');
 INSERT INTO config VALUES ('term.startDate', '2024-04-27 00:00:00 +02:00');
