@@ -1,11 +1,4 @@
--- CREATE DATABASE radar;
-
-DROP TABLE IF EXISTS events;
-DROP TABLE IF EXISTS locations;
-DROP TABLE IF EXISTS phases;
-DROP TABLE IF EXISTS config;
-
-CREATE TABLE locations (
+CREATE TABLE IF NOT EXISTS locations (
   id SERIAL PRIMARY KEY,
   name TEXT NOT NULL,
   address TEXT NOT NULL,
@@ -13,7 +6,7 @@ CREATE TABLE locations (
   type TEXT NOT NULL
 );
 
-CREATE TABLE events (
+CREATE TABLE IF NOT EXISTS events (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   title TEXT NOT NULL,
   event_date TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -25,7 +18,7 @@ CREATE TABLE events (
   FOREIGN KEY (location_id) REFERENCES locations(id)
 );
 
-CREATE TABLE phases (
+CREATE TABLE IF NOT EXISTS phases (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   title TEXT NOT NULL,
   description TEXT,
@@ -33,7 +26,7 @@ CREATE TABLE phases (
   date_to TIMESTAMP WITH TIME ZONE NOT NULL
 );
 
-CREATE TABLE config (
+CREATE TABLE IF NOT EXISTS config (
   key TEXT PRIMARY KEY,
   value TEXT NOT NULL
 );
