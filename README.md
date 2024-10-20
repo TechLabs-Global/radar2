@@ -1,38 +1,59 @@
-# create-svelte
+> [!WARNING]  
+> This project is still in development and may not be ready for production use.
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+# TechLabs Radar 2.0
 
-## Creating a project
+A faithful reimplementation of the original [Semester Radar](https://github.com/techLabs-berlin/radar) built by TechLabs Berlin.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Features
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+TBD
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+### Event Types
 
-## Developing
+TBD
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+### Timelines
 
+TBD
+
+## Configuration
+
+TBD!
+
+## Deployment
+
+We provide a example [docker compose file]("./compose.yml") for easy deployment in development and test environments.
+
+Configuration of the runtime environment is done via environment variables:
+
+> [!WARNING]  
+> Most environment variables will be made required in the future.
+
+|Variable   |Description   |Default   |Required   |Example   |
+|---|---|---|---|---|
+|DB_HOST   |Database host   |localhost   |No   |
+|DB_PORT   |Database port   |5432   |No   |
+|DB_NAME   |Database name   |radar   |No   |
+|DB_USER   |Database user   |radar   |No   |
+|DB_PASSWORD   |Database password   |radar123   |No   |
+|INIT_DB   |Initialize the database schema on startup (idempotent). Not recommended for production use.   |false   |No   |
+|SEED_DB   |Seed the database with test data on startup (idempotent). Not recommended for production use.   |false   |No   |
+
+## Development
+
+Start in development mode:
 ```bash
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
-
-To create a production version of your app:
-
+Build and run (near-production mode):
 ```bash
 npm run build
+node build/index.js
+
+# or
+
+docker-compose up --build
 ```
 
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
