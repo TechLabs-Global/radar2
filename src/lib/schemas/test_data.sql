@@ -1,10 +1,20 @@
-INSERT INTO locations (name, address, url, type)
+INSERT INTO locations (id, name, address, url, type)
 VALUES (
+        1,
         'KoFabrik in Bochum',
         'Stühmeyerstraße 33, 44787 Bochum',
         'https://maps.app.goo.gl/e3wjUvQmCFNY3GT47',
         'offline'
-    );
+    ), (
+        2,
+        'Around - Our Around meeting space',
+        null,
+        'https://example.com',
+        'online'
+    ) ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO events (id, title, event_date, description, type, is_public, is_mandatory, location_id)
+VALUES ('713b7b69-b2fc-4f5d-9164-bfdffe430fc7', 'Test Event 1', current_timestamp + interval '3 days', 'This is a in-person test event', 'event', FALSE, FALSE, 1), ('94d2b1b9-fd59-4a14-99d5-1cc5cde9d070', 'Test Event 2', current_timestamp + interval '5 days', 'This is a online test event', 'event', FALSE, FALSE, 2) ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO events (id, title, event_date, description, type, is_public, is_mandatory, location_id)
 VALUES ('203edc8e-4c3c-449f-a71a-545d8689965a', 'Hatching Phase', '2024-05-12 19:00:00 +02:00', 'You should have finished at least **8h** of your track until the deadline. __This is a cutting point__: if you fail to complete it, you cannot participate any longer.', 'cutoff', TRUE, FALSE, NULL) ON CONFLICT (id) DO NOTHING;
@@ -26,18 +36,18 @@ VALUES ('0bcab313-78ee-4962-bd90-726172445f91', '50% Checkpoint', '2024-06-04 19
 
 
 INSERT INTO events (id, title, event_date, description, type, is_public, is_mandatory, location_id)
-VALUES ('5ecb9a56-9e68-43b2-82a5-975bef243008', 'Open Track Q&A', '2024-04-30 19:00:00 +02:00', 'Are you lost or do you have questions regarding your track? We''ve got you covered! Join us for an open Q&A session where you can ask all your questions and get help from our mentors.', 'event', FALSE, FALSE, 1) ON CONFLICT (id) DO NOTHING;
+VALUES ('5ecb9a56-9e68-43b2-82a5-975bef243008', 'Open Track Q&A', '2024-12-20 19:00:00 +02:00', 'Are you lost or do you have questions regarding your track? We''ve got you covered! Join us for an open Q&A session where you can ask all your questions and get help from our mentors.', 'event', FALSE, FALSE, 1) ON CONFLICT (id) DO NOTHING;
 
 
 INSERT INTO events (id, title, event_date, description, type, is_public, is_mandatory, location_id)
-VALUES ('3ab545a0-4ae5-4629-9c76-e21ec08af017', 'Meet&Eat', '2024-05-09 19:00:00 +02:00', 'One of the most important aspects of the Digital Shaper Program is the community. So we want to give you a platform to connect.
+VALUES ('3ab545a0-4ae5-4629-9c76-e21ec08af017', 'Meet&Eat', '2024-12-15 19:00:00 +02:00', 'One of the most important aspects of the Digital Shaper Program is the community. So we want to give you a platform to connect.
 
 This is why this event is all about getting to know each other in a ''Meet&Eat'' manner. You will have several chats with other participants, talking about different topics e.g. hobbies and personal interests.
 We are looking forward to you getting to know each other a little bit more and having a fun time together.', 'event', FALSE, FALSE, 1) ON CONFLICT (id) DO NOTHING;
 
 
 INSERT INTO events (id, title, event_date, description, type, is_public, is_mandatory, location_id)
-VALUES ('45502df1-e8c0-483d-ad98-be93f71b9c47', '70% Checkpoint', '2024-07-09 19:00:00 +02:00', 'By now, you should have completed the minimum required __70%__ of your learning material. __This is a cutting point__ = if you fail to do so, you cannot participate any longer.
+VALUES ('45502df1-e8c0-483d-ad98-be93f71b9c47', '70% Checkpoint', '2024-12-31 19:00:00 +02:00', 'By now, you should have completed the minimum required __70%__ of your learning material. __This is a cutting point__ = if you fail to do so, you cannot participate any longer.
 
 __DS__ - min. 55h
 __DL__ - min. 40h
@@ -46,7 +56,7 @@ __WD__ - min. 30h', 'cutoff', TRUE, FALSE, NULL) ON CONFLICT (id) DO NOTHING;
 
 
 INSERT INTO events (id, title, event_date, description, type, is_public, is_mandatory, location_id)
-VALUES ('8fd5a2c9-8f94-4f0c-80eb-54907c38ba27', 'Social Networking Event', '2024-05-24 19:00:00 +02:00', 'This is why this event is all about getting to know each other. You will have several chats with other participants, talking about different topics e.g. hobbies and personal interests.
+VALUES ('8fd5a2c9-8f94-4f0c-80eb-54907c38ba27', 'Social Networking Event', '2024-12-14 19:00:00 +02:00', 'This is why this event is all about getting to know each other. You will have several chats with other participants, talking about different topics e.g. hobbies and personal interests.
 We are looking forward to you getting to know each other a little bit more and having a fun time together.', 'event', FALSE, FALSE, 1) ON CONFLICT (id) DO NOTHING;
 
 
