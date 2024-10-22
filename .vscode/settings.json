@@ -1,0 +1,25 @@
+{
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.formatOnSave": true,
+	"[javascript]": {
+		"editor.formatOnSave": true
+	},
+	"[typescript]": {
+		"editor.formatOnSave": true,
+		"editor.codeActionsOnSave": {
+			"source.organizeImports": "explicit",
+			"source.fixAll.eslint": "explicit"
+		}
+	},
+	"[svelte]": {
+		"editor.formatOnSave": true,
+		"editor.codeActionsOnSave": {
+			"source.organizeImports": "explicit",
+			"source.fixAll.eslint": "explicit"
+		}
+	},
+	"[json]": {
+		"editor.formatOnSave": true
+	},
+	"prettier.requireConfig": true
+}
