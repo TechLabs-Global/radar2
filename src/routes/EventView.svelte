@@ -77,6 +77,7 @@
 			</h2>
 		{/if}
 
+		<!-- eslint-disable svelte/no-at-html-tags -->
 		<div class="flex flex-col gap-4 mt-4">{@html description}</div>
 	</div>
 
