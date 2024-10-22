@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from "$app/stores";
-	import type { Event, Location } from "$lib/types/event";
+	import type { Event } from "$lib/types/event";
 	import EventView from "../../EventView.svelte";
 
 	async function fetchEvent(eventId: string): Promise<Event> {

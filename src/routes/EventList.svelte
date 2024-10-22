@@ -1,10 +1,10 @@
 <script lang="ts">
+	import { Event } from "$lib/types/event";
+	import type { Phase } from "$lib/types/phase";
+	import type { Term } from "$lib/types/term";
 	import dayjs from "dayjs";
 	import isoWeek from "dayjs/plugin/isoWeek";
 	import EventListItem from "./EventListItem.svelte";
-	import { Event, Location } from "$lib/types/event";
-	import type { Term } from "$lib/types/term";
-	import type { Phase } from "$lib/types/phase";
 
 	export let events: Event[];
 	export let term: Term;

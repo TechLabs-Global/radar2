@@ -1,11 +1,11 @@
-import postgres from "postgres";
-import { error } from "@sveltejs/kit";
 import { Event } from "$lib/types/event";
+import { error } from "@sveltejs/kit";
+import postgres from "postgres";
 
+import { dbHost, dbName, dbPassword, dbPort, dbUser, initDb, seedDb } from "./environment";
+import type { ConfigItem } from "./types/config";
 import type { Phase } from "./types/phase";
 import { Term } from "./types/term";
-import type { ConfigItem } from "./types/config";
-import { dbHost, dbName, dbPassword, dbPort, dbUser, initDb, seedDb } from "./environment";
 
 import dbSchema from "./schemas/tables.sql?raw";
 import dbSeed from "./schemas/test_data.sql?raw";
@@ -167,7 +167,7 @@ class DB {
 				});
 			}
 
-			let location = new Location();
+			const location = new Location();
 
 			rawLocation.forEach(({ key, value }) => {
 				switch (key) {
@@ -209,7 +209,7 @@ class DB {
 				});
 			}
 
-			let term = new Term();
+			const term = new Term();
 
 			rawConfig.forEach(({ key, value }) => {
 				switch (key) {

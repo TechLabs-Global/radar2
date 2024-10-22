@@ -1,9 +1,9 @@
 <script lang="ts">
-	import dayjs from "dayjs";
-	import markdownit from "markdown-it";
-	import advancedFormat from "dayjs/plugin/advancedFormat";
 	import type { Event } from "$lib/types/event";
 	import { EventType, LocationType } from "$lib/types/event";
+	import dayjs from "dayjs";
+	import advancedFormat from "dayjs/plugin/advancedFormat";
+	import markdownit from "markdown-it";
 
 	dayjs.extend(advancedFormat);
 

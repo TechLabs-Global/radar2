@@ -1,9 +1,9 @@
 <script lang="ts">
-	import dayjs from "dayjs";
-	import isoWeek from "dayjs/plugin/isoWeek";
-	import type { Event, Location } from "$lib/types/event";
+	import type { Event } from "$lib/types/event";
 	import { EventType } from "$lib/types/event";
 	import type { Term } from "$lib/types/term";
+	import dayjs from "dayjs";
+	import isoWeek from "dayjs/plugin/isoWeek";
 
 	export let event: Event;
 	export let term: Term;

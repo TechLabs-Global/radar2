@@ -1,14 +1,6 @@
-import { json } from "@sveltejs/kit";
-import fs from "fs/promises";
-import { access } from "fs/promises";
-import path from "path";
-import toml from "toml";
-import dayjs from "dayjs";
-import ics from "ics";
-import type { Event, Location } from "$lib/types/event";
 import { error } from "console";
 
-export async function GET(e) {
+export async function GET() {
 	// const eventId = e.params.eventid;
 
 	// if (!validateEventId(eventId)) {
@@ -51,35 +43,4 @@ export async function GET(e) {
 	error(501, {
 		message: "Not implemented"
 	});
-}
-
-function validateEventId(eventId: string): boolean {
-	return /^[0-9]+_[a-z0-9-_]+$/.test(eventId);
-}
-
-function generateICS(event: Event): string {
-	const location = event.location;
-	const start = dayjs(event.date);
-	const duration = 2; // TODO make this configurable
-
-	const icsEvent = {
-		start: [start.year(), start.month() + 1, start.date(), start.hour(), start.minute()],
-		duration: { hours: duration },
-		title: event.title,
-		description: event.description,
-		location: location.address,
-		organizer: { name: "TechLabs Düsseldorf e. V.", email: "duesseldorf@techlabs.org" } // TODO make this configurable using the location from config
-	};
-
-	let icsString = "";
-
-	ics.createEvent(icsEvent, (error, value) => {
-		if (error) {
-			throw error;
-		}
-
-		icsString = value;
-	});
-
-	return icsString;
 }

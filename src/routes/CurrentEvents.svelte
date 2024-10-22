@@ -1,8 +1,8 @@
 <script lang="ts">
+	import type { Event } from "$lib/types/event";
+	import { EventType } from "$lib/types/event";
 	import dayjs from "dayjs";
 	import EventView from "./EventView.svelte";
-	import type { Event, Location } from "$lib/types/event";
-	import { EventType } from "$lib/types/event";
 
 	export let events: Event[];
 

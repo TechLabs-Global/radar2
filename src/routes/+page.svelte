@@ -1,9 +1,9 @@
 <script lang="ts">
-	import EventList from "./EventList.svelte";
-	import CurrentEvents from "./CurrentEvents.svelte";
-	import type { Event, Location } from "$lib/types/event";
-	import type { Term } from "$lib/types/term";
+	import type { Event } from "$lib/types/event";
 	import type { Phase } from "$lib/types/phase";
+	import type { Term } from "$lib/types/term";
+	import CurrentEvents from "./CurrentEvents.svelte";
+	import EventList from "./EventList.svelte";
 
 	async function fetchData(): Promise<[Event[], Term, Phase[]]> {
 		const resEvents = await fetch("/api/events");
