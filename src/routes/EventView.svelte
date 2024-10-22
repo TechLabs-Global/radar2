@@ -3,6 +3,7 @@
 	import { EventType, LocationType } from "$lib/types/event";
 	import dayjs from "dayjs";
 	import advancedFormat from "dayjs/plugin/advancedFormat";
+	import DOMPurify from "dompurify";
 	import markdownit from "markdown-it";
 
 	dayjs.extend(advancedFormat);
@@ -78,7 +79,9 @@
 		{/if}
 
 		<!-- eslint-disable svelte/no-at-html-tags -->
-		<div class="flex flex-col gap-4 mt-4">{@html description}</div>
+		<div class="flex flex-col gap-4 mt-4">
+			{@html DOMPurify.sanitize(description, { USE_PROFILES: { html: true } })}
+		</div>
 	</div>
 
 	{#if event.type == EventType.Event}
