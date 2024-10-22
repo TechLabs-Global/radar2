@@ -1,15 +1,15 @@
-import postgres from 'postgres';
-import { error } from '@sveltejs/kit';
-import { Event } from '$lib/types/event';
+import postgres from "postgres";
+import { error } from "@sveltejs/kit";
+import { Event } from "$lib/types/event";
 
-import type { Phase } from './types/phase';
-import { Term } from './types/term';
-import type { ConfigItem } from './types/config';
-import { dbHost, dbName, dbPassword, dbPort, dbUser, initDb, seedDb } from './environment';
+import type { Phase } from "./types/phase";
+import { Term } from "./types/term";
+import type { ConfigItem } from "./types/config";
+import { dbHost, dbName, dbPassword, dbPort, dbUser, initDb, seedDb } from "./environment";
 
-import dbSchema from './schemas/tables.sql?raw';
-import dbSeed from './schemas/test_data.sql?raw';
-import { Location } from './types/location';
+import dbSchema from "./schemas/tables.sql?raw";
+import dbSeed from "./schemas/test_data.sql?raw";
+import { Location } from "./types/location";
 
 class DB {
 	private client: ReturnType<typeof postgres>;
@@ -27,11 +27,11 @@ class DB {
 
 	public async init() {
 		if (initDb) {
-			console.log('Initializing database...');
+			console.log("Initializing database...");
 			await this.client.unsafe(dbSchema);
 		}
 		if (seedDb) {
-			console.log('Seeding database...');
+			console.log("Seeding database...");
 			await this.client.unsafe(dbSeed);
 		}
 	}
@@ -69,16 +69,16 @@ class DB {
 			// Why this check? Returning an empty array is not an error
 			if (!events) {
 				error(404, {
-					message: 'Events not found'
+					message: "Events not found"
 				});
 			}
 
 			return events;
 		} catch (e) {
-			console.error('Error reading events', e);
+			console.error("Error reading events", e);
 
 			error(500, {
-				message: 'Internal server error'
+				message: "Internal server error"
 			});
 		}
 	}
@@ -117,16 +117,16 @@ class DB {
 
 			if (!events || events.length === 0) {
 				error(404, {
-					message: 'Event not found'
+					message: "Event not found"
 				});
 			}
 
 			return events[0];
 		} catch (e) {
-			console.error('Error reading events', e);
+			console.error("Error reading events", e);
 
 			error(500, {
-				message: 'Internal server error'
+				message: "Internal server error"
 			});
 		}
 	}
@@ -140,16 +140,16 @@ class DB {
 
 			if (!phases) {
 				error(404, {
-					message: 'Phases not found'
+					message: "Phases not found"
 				});
 			}
 
 			return phases;
 		} catch (e) {
-			console.error('Error reading phases', e);
+			console.error("Error reading phases", e);
 
 			error(500, {
-				message: 'Internal server error'
+				message: "Internal server error"
 			});
 		}
 	}
@@ -163,7 +163,7 @@ class DB {
 
 			if (!rawLocation) {
 				error(404, {
-					message: 'Location not found'
+					message: "Location not found"
 				});
 			}
 
@@ -171,10 +171,10 @@ class DB {
 
 			rawLocation.forEach(({ key, value }) => {
 				switch (key) {
-					case 'location.name':
+					case "location.name":
 						location.name = value;
 						break;
-					case 'location.logo':
+					case "location.logo":
 						location.logo = value;
 						break;
 				}
@@ -182,16 +182,16 @@ class DB {
 
 			if (!location.name || !location.logo) {
 				error(404, {
-					message: 'Location not found'
+					message: "Location not found"
 				});
 			}
 
 			return location;
 		} catch (e) {
-			console.error('Error reading location', e);
+			console.error("Error reading location", e);
 
 			error(500, {
-				message: 'Internal server error'
+				message: "Internal server error"
 			});
 		}
 	}
@@ -205,7 +205,7 @@ class DB {
 
 			if (!rawConfig) {
 				error(404, {
-					message: 'Config not found'
+					message: "Config not found"
 				});
 			}
 
@@ -213,16 +213,16 @@ class DB {
 
 			rawConfig.forEach(({ key, value }) => {
 				switch (key) {
-					case 'term.title':
+					case "term.title":
 						term.title = value;
 						break;
-					case 'term.batchNumber':
+					case "term.batchNumber":
 						term.batchNumber = parseInt(value);
 						break;
-					case 'term.startDate':
+					case "term.startDate":
 						term.startDate = new Date(value);
 						break;
-					case 'term.firstWeek':
+					case "term.firstWeek":
 						term.firstWeek = parseInt(value);
 						break;
 				}
@@ -235,16 +235,16 @@ class DB {
 				term.firstWeek === undefined
 			) {
 				error(404, {
-					message: 'Term not found'
+					message: "Term not found"
 				});
 			}
 
 			return term;
 		} catch (e) {
-			console.error('Error reading term config', e);
+			console.error("Error reading term config", e);
 
 			error(500, {
-				message: 'Internal server error'
+				message: "Internal server error"
 			});
 		}
 	}

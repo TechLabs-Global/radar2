@@ -17,7 +17,11 @@
 		<div class="flex flex-row gap-6 items-center justify-center max-md:hidden">
 			<div><a class="hover:underline" href="/">Timeline</a></div>
 			<div><a class="hover:underline" href="/faq">FAQ</a></div>
-			<div class="border border-gray-300 rounded-md shadow-md p-1.5 text-white bg-techlabspink hover:shadow-lg hover:text-techlabspink hover:bg-pink-100 transition"><a href="/apply">Apply</a></div>
+			<div
+				class="border border-gray-300 rounded-md shadow-md p-1.5 text-white bg-techlabspink hover:shadow-lg hover:text-techlabspink hover:bg-pink-100 transition"
+			>
+				<a href="/apply">Apply</a>
+			</div>
 		</div>
 		<div><i class="bi-list text-3xl md:hidden" /></div>
 	</div>

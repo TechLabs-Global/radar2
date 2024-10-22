@@ -1,20 +1,26 @@
 <script lang="ts">
-    import dayjs from "dayjs";
+	import dayjs from "dayjs";
 	import EventView from "./EventView.svelte";
-    import type { Event, Location } from "$lib/types/event";
-    import { EventType } from "$lib/types/event";
-    
-    export let events: Event[];
+	import type { Event, Location } from "$lib/types/event";
+	import { EventType } from "$lib/types/event";
 
-    let nextMilestone = events.filter(event => (event.type == EventType.Checkpoint || event.type == EventType.Cutoff) && dayjs().isBefore(dayjs(event.date)))[0];
-    let nextEvent = events.filter(event => event.type == EventType.Event && dayjs().isBefore(dayjs(event.date)))[0];
+	export let events: Event[];
+
+	let nextMilestone = events.filter(
+		(event) =>
+			(event.type == EventType.Checkpoint || event.type == EventType.Cutoff) &&
+			dayjs().isBefore(dayjs(event.date))
+	)[0];
+	let nextEvent = events.filter(
+		(event) => event.type == EventType.Event && dayjs().isBefore(dayjs(event.date))
+	)[0];
 </script>
 
 <div class="flex flex-col gap-8">
-    {#if nextMilestone}
-        <EventView event={nextMilestone} />
-    {/if}
-    {#if nextEvent}
-        <EventView event={nextEvent} />
-    {/if}
+	{#if nextMilestone}
+		<EventView event={nextMilestone} />
+	{/if}
+	{#if nextEvent}
+		<EventView event={nextEvent} />
+	{/if}
 </div>
