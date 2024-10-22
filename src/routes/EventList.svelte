@@ -76,4 +76,3 @@
         <EventListItem {event} {term} firstInWeek={event.id == "" || firstEventInWeek(events, event)} emptyWeek={event.id == ""} phase={event.id == "PHASE"} />
     {/each}
 </div>
-
