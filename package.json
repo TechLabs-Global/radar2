@@ -8,6 +8,7 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "eslint .",
+		"lint:write": "eslint . --fix",
 		"format": "prettier --check .",
 		"format:write": "prettier --write ."
 	},
