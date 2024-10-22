@@ -38,6 +38,8 @@
   "dependencies": {
     "autoprefixer": "^10.4.20",
     "bootstrap-icons": "^1.11.3",
+    "carta-md": "^4.6.3",
+    "date-picker-svelte": "^2.14.0",
     "dayjs": "^1.11.13",
     "env-var": "^7.5.0",
     "ics": "^3.8.1",
