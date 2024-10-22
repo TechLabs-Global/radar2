@@ -1,4 +1,4 @@
 export class Location {
-    name: string = "";
-    logo: string = "";
+	name: string = "";
+	logo: string = "";
 }

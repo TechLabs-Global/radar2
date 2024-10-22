@@ -1,5 +1,5 @@
-import { error, json } from '@sveltejs/kit';
-import database from '$lib/db';
+import { error, json } from "@sveltejs/kit";
+import database from "$lib/db";
 
 export async function GET(e) {
 	const db = await database();
@@ -7,7 +7,7 @@ export async function GET(e) {
 
 	if (!validateEventId(eventId)) {
 		error(400, {
-			message: 'Invalid event ID'
+			message: "Invalid event ID"
 		});
 	}
 

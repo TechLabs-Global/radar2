@@ -1,5 +1,5 @@
-import { json } from '@sveltejs/kit';
-import database from '$lib/db';
+import { json } from "@sveltejs/kit";
+import database from "$lib/db";
 
 /**
  * Returns data relevant for showing the Radar instance. This includes data on the instance's
@@ -12,6 +12,6 @@ export async function GET() {
 
 	return json({
 		location: location,
-		term: term,
+		term: term
 	});
 }
