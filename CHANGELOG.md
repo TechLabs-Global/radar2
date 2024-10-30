@@ -1,3 +1,12 @@
+# [0.5.0](https://github.com/TechLabs-Global/radar2/compare/0.4.0...0.5.0) (2024-10-30)
+
+
+### Features
+
+* add TechLabs logo as favicon ([#36](https://github.com/TechLabs-Global/radar2/issues/36)) ([371fae3](https://github.com/TechLabs-Global/radar2/commit/371fae30cf10a8177ce2e7591d809eff0c58791f))
+
+
+
 # [0.4.0](https://github.com/TechLabs-Global/radar2/compare/0.3.0...0.4.0) (2024-10-20)
 
 
