@@ -75,3 +75,25 @@ export async function PUT({ params, request }) {
 		});
 	}
 }
+
+export async function DELETE({ params }) {
+	const db = await database();
+	const locationid: string = params.locationid;
+
+	if (!validateLocationId(locationid)) {
+		error(400, {
+			message: 'Invalid location ID'
+		});
+	}
+
+	try {
+		const { count: deletedEntries } =
+			await db.client`DELETE FROM locations WHERE id = ${locationid};`;
+
+		return json({ locationId: locationid, deletedEntries });
+	} catch (e) {
+		error(500, {
+			message: (e as unknown as Error).message
+		});
+	}
+}
