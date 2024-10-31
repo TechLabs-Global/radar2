@@ -12,7 +12,7 @@ import dbSeed from './schemas/test_data.sql?raw';
 import { Location } from './types/location';
 
 class DB {
-	private client: ReturnType<typeof postgres>;
+	public client: ReturnType<typeof postgres>;
 
 	constructor(host: string, port: number, database: string, username: string, password: string) {
 		this.client = postgres({
