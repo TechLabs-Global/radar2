@@ -12,14 +12,16 @@
 
         return events;
     }
-    
-    async function deleteEvent(event_id: string): Promise<void> {
-        const res = await fetch(`/admin/events/${event_id}`, {
-            method: "DELETE"
-        });
 
-        if (!res.ok) {
-            error = "Could not delete event.";
+    async function deleteEvent(event_id: string) {
+        return async function() {
+            const res = await fetch(`/admin/events/${event_id}`, {
+                method: "DELETE"
+            });
+
+            if (!res.ok) {
+                error = "Could not delete event.";
+            }
         }
     }
 
