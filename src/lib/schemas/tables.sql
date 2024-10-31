@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS locations (
-  id SERIAL PRIMARY KEY,
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   name TEXT NOT NULL,
   address TEXT,
   url TEXT NOT NULL,
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS events (
   type TEXT NOT NULL,
   is_public BOOLEAN NOT NULL,
   is_mandatory BOOLEAN NOT NULL,
-  location_id INT,
+  location_id uuid,
   FOREIGN KEY (location_id) REFERENCES locations(id)
 );
 
