@@ -53,9 +53,6 @@ export async function GET(e) {
     })
 }
 
-function validateEventId(eventId: string): boolean {
-    return /^[0-9]+_[a-z0-9-_]+$/.test(eventId);
-}
 
 function generateICS(event: Event): string {
     const location = event.location;
