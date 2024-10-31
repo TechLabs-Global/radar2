@@ -1,10 +1,26 @@
 import { error, json } from '@sveltejs/kit';
 import database from '$lib/db';
 
+export type Location = {
+	id: string;
+	name: string;
+	address?: string;
+	url: string;
+	type: string;
+};
+
 export async function GET() {
 	const db = await database();
 
-	const locations = await db.client`SELECT * FROM locations;`;
+	const dbLocations = await db.client`SELECT id, name, address, url, type FROM locations;`;
+
+	const locations: Location[] = dbLocations.map((dbLocation) => ({
+		id: dbLocation.id,
+		name: dbLocation.name,
+		address: dbLocation.address,
+		url: dbLocation.url,
+		type: dbLocation.type
+	}));
 
 	return json(locations);
 }
@@ -35,11 +51,19 @@ export async function POST({ request }) {
 	const queryString = `
         INSERT INTO locations (${fields.join(', ')})
         VALUES (${values.join(', ')})
-        RETURNING *;
+        RETURNING id, name, address, url, type;
     `;
 
 	try {
-		const location = await db.client.unsafe(queryString);
+		const dbLocation = await db.client.unsafe(queryString);
+
+		const location: Location = {
+			id: dbLocation[0].id,
+			name: dbLocation[0].name,
+			address: dbLocation[0].address,
+			url: dbLocation[0].url,
+			type: dbLocation[0].type
+		};
 
 		return json(location);
 	} catch (e) {

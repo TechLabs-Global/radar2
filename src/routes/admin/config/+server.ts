@@ -1,12 +1,30 @@
 import { error, json } from '@sveltejs/kit';
 import database from '$lib/db';
 
+export type ConfigKey =
+	| 'location.name'
+	| 'location.logo'
+	| 'term.title'
+	| 'term.batchNumber'
+	| 'term.startDate'
+	| 'term.firstWeek';
+
+export type Config = {
+	key: ConfigKey;
+	value: string;
+};
+
 export async function GET() {
 	const db = await database();
 
-	const allEvents = await db.client`SELECT * FROM config;`;
+	const dbConfigEntries = await db.client`SELECT * FROM config;`;
 
-	return json(allEvents);
+	const configEntries: Config[] = dbConfigEntries.map((dbConfigEntry) => ({
+		key: dbConfigEntry.key,
+		value: dbConfigEntry.value
+	}));
+
+	return json(configEntries);
 }
 
 export async function PUT({ request }) {
@@ -14,15 +32,15 @@ export async function PUT({ request }) {
 	const body = await request.json();
 
 	const allowedKeys = [
+		'location.name',
 		'location.logo',
+		'term.title',
 		'term.batchNumber',
 		'term.startDate',
-		'term.firstWeek',
-		'location.name',
-		'term.title'
+		'term.firstWeek'
 	];
 
-	const keys = Object.keys(body).filter((key) => allowedKeys.includes(key));
+	const keys = Object.keys(body).filter(allowedKeys.includes);
 	const values = keys.map((key) => body[key]);
 
 	if (keys.length !== values.length) {
@@ -39,9 +57,14 @@ export async function PUT({ request }) {
 	`;
 
 	try {
-		const event = await db.client.unsafe(queryString);
+		const dbConfigEntry = await db.client.unsafe(queryString);
 
-		return json(event);
+		const configEntry: Config = {
+			key: dbConfigEntry[0].key,
+			value: dbConfigEntry[0].value
+		};
+
+		return json(configEntry);
 	} catch (e) {
 		error(500, {
 			message: (e as unknown as Error).message

@@ -1,18 +1,29 @@
 import { error, json } from '@sveltejs/kit';
 import database from '$lib/db';
 
+import { validateLocationId } from '$lib/validators';
+import type { Location } from '../+server';
+
 export async function GET({ params }) {
 	const db = await database();
 	const locationid: string = params.locationid;
 
 	const queryString = `
-		SELECT * FROM locations WHERE id = ${locationid};
+		SELECT id, name, address, url, type FROM locations WHERE id = ${locationid};
 	`;
 
 	try {
-		const location = await db.client.unsafe(queryString);
+		const dbLocation = await db.client.unsafe(queryString);
 
-		return json(location[0]);
+		const location: Location = {
+			id: dbLocation[0].id,
+			name: dbLocation[0].name,
+			address: dbLocation[0].address,
+			url: dbLocation[0].url,
+			type: dbLocation[0].type
+		};
+
+		return json(location);
 	} catch (e) {
 		error(500, {
 			message: (e as unknown as Error).message
@@ -23,28 +34,41 @@ export async function GET({ params }) {
 export async function PUT({ params, request }) {
 	const db = await database();
 	const locationid: string = params.locationid;
-	const body = await request.json();
 
-	const queryStringParts: string[] = [];
-	queryStringParts.push(`UPDATE locations SET`);
+	if (!validateLocationId(locationid)) {
+		error(400, {
+			message: 'Invalid location ID'
+		});
+	}
+
+	const body = await request.json();
 
 	const allowedKeys = ['name', 'address', 'url', 'type'];
 
 	const updateParts = Object.keys(body)
-		.filter((key) => allowedKeys.includes(key))
+		.filter(allowedKeys.includes)
 		.map((key) => `${key} = '${body[key]}'`)
 		.join(', ');
-	queryStringParts.push(updateParts);
 
-	queryStringParts.push(`WHERE id = ${locationid}`);
-	queryStringParts.push(`RETURNING *`);
-
-	const queryString = queryStringParts.join(' ');
+	const queryString = `
+		UPDATE locations SET
+		${updateParts}
+		WHERE id = ${locationid}
+		RETURNING id, name, address, url, type;
+	`;
 
 	try {
-		const location = await db.client.unsafe(queryString);
+		const dbLocation = await db.client.unsafe(queryString);
 
-		return json(location[0]);
+		const location: Location = {
+			id: dbLocation[0].id,
+			name: dbLocation[0].name,
+			address: dbLocation[0].address,
+			url: dbLocation[0].url,
+			type: dbLocation[0].type
+		};
+
+		return json(location);
 	} catch (e) {
 		error(500, {
 			message: (e as unknown as Error).message

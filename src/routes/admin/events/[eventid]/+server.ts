@@ -1,36 +1,83 @@
 import { error, json } from '@sveltejs/kit';
 import database from '$lib/db';
-import { validateEventId } from '../../../api/event/[eventid]/+server';
+
+import { validateEventId } from '$lib/validators';
+import type { Event } from '../+server';
 
 export async function GET({ params }) {
 	const db = await database();
+	const eventId = params.eventid;
 
-	const event = await db.client`SELECT * FROM events WHERE id = ${params.eventid};`;
+	if (!validateEventId(eventId)) {
+		error(400, {
+			message: 'Invalid event ID'
+		});
+	}
+
+	const dbEvent =
+		await db.client`SELECT id, title, event_date, description, type, is_public, is_mandatory, location_id FROM events WHERE id = ${eventId};`;
+
+	const event: Event = {
+		id: dbEvent[0].id,
+		title: dbEvent[0].title,
+		date: dbEvent[0].event_date,
+		description: dbEvent[0].description,
+		type: dbEvent[0].type,
+		isPublic: dbEvent[0].is_public,
+		isMandatory: dbEvent[0].is_mandatory,
+		locationId: dbEvent[0].location_id
+	};
 
 	return json(event);
 }
 
 export async function PUT({ params, request }) {
 	const db = await database();
+	const eventId = params.eventid;
+
+	if (!validateEventId(eventId)) {
+		error(400, {
+			message: 'Invalid event ID'
+		});
+	}
 
 	const body = await request.json();
 
-	const queryStringParts: string[] = [];
-	queryStringParts.push('UPDATE events SET');
+	const allowedKeys = [
+		'title',
+		'eventDate',
+		'description',
+		'type',
+		'isPublic',
+		'isMandatory',
+		'locationId'
+	];
 
-	const updateParts: string[] = [];
-	Object.keys(body).forEach((key) => {
-		if (key !== 'id') {
-			updateParts.push(`${key} = '${body[key]}'`);
-		}
-	});
-	queryStringParts.push(updateParts.join(', '));
-	queryStringParts.push(`WHERE id = '${params.eventid}' RETURNING *;`);
+	const updateParts = Object.keys(body)
+		.filter(allowedKeys.includes)
+		.map((key) => `${key} = '${body[key]}'`)
+		.join(', ');
 
-	const queryString = queryStringParts.join(' ');
+	const queryString = `
+		UPDATE events SET
+		${updateParts}
+		WHERE id = '${eventId}'
+		RETURNING id, title, event_date, description, type, is_public, is_mandatory, location_id;
+	`;
 
 	try {
-		const event = await db.client.unsafe(queryString);
+		const dbEvent = await db.client.unsafe(queryString);
+
+		const event: Event = {
+			id: dbEvent[0].id,
+			title: dbEvent[0].title,
+			date: dbEvent[0].event_date,
+			description: dbEvent[0].description,
+			type: dbEvent[0].type,
+			isPublic: dbEvent[0].is_public,
+			isMandatory: dbEvent[0].is_mandatory,
+			locationId: dbEvent[0].location_id
+		};
 
 		return json(event);
 	} catch (e) {
@@ -42,17 +89,18 @@ export async function PUT({ params, request }) {
 
 export async function DELETE({ params }) {
 	const db = await database();
+	const eventId = params.eventid;
 
-	if (!validateEventId(params.eventid)) {
+	if (!validateEventId(eventId)) {
 		error(400, {
 			message: 'Invalid event ID'
 		});
 	}
 
 	try {
-		const response = await db.client`DELETE FROM events WHERE id = ${params.eventid};`;
+		const { count: deletedEntries } = await db.client`DELETE FROM events WHERE id = ${eventId};`;
 
-		return json({ eventId: params.eventid, deletedEntries: response.count });
+		return json({ eventId, deletedEntries });
 	} catch (e) {
 		error(500, {
 			message: (e as unknown as Error).message

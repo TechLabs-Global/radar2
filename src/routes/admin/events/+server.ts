@@ -1,12 +1,35 @@
 import { error, json } from '@sveltejs/kit';
 import database from '$lib/db';
 
+export type Event = {
+	id: string;
+	title: string;
+	date: Date;
+	description?: string;
+	type: string;
+	isPublic: boolean;
+	isMandatory: boolean;
+	locationId?: string;
+};
+
 export async function GET() {
 	const db = await database();
 
-	const allEvents = await db.client`SELECT * FROM events;`;
+	const dbEvents =
+		await db.client`SELECT id, title, event_date, description, type, is_public, is_mandatory, location_id FROM events;`;
 
-	return json(allEvents);
+	const events: Event[] = dbEvents.map((dbEvent) => ({
+		id: dbEvent.id,
+		title: dbEvent.title,
+		date: dbEvent.event_data,
+		description: dbEvent.description,
+		type: dbEvent.type,
+		isPublic: dbEvent.is_public,
+		isMandatory: dbEvent.is_mandatory,
+		locationId: dbEvent.location_id
+	}));
+
+	return json(events);
 }
 
 export async function POST({ request }) {
@@ -41,13 +64,24 @@ export async function POST({ request }) {
 	const queryString = `
 		INSERT INTO events (${fields.join(', ')})
 		VALUES (${values.join(', ')})
-		RETURNING *;
+		RETURNING id, title, event_date, description, type, is_public, is_mandatory, location_id;
 	`;
 
 	try {
-		const event = await db.client.unsafe(queryString);
+		const dbEvent = await db.client.unsafe(queryString);
 
-		return json(event[0]);
+		const event = {
+			id: dbEvent[0].id,
+			title: dbEvent[0].title,
+			date: dbEvent[0].event_date,
+			description: dbEvent[0].description,
+			type: dbEvent[0].type,
+			isPublic: dbEvent[0].is_public,
+			isMandatory: dbEvent[0].is_mandatory,
+			locationId: dbEvent[0].location_id
+		};
+
+		return json(event);
 	} catch (e) {
 		error(500, {
 			message: (e as unknown as Error).message
