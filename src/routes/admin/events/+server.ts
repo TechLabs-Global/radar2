@@ -21,12 +21,12 @@ export async function GET() {
 	const events: Event[] = dbEvents.map((dbEvent) => ({
 		id: dbEvent.id,
 		title: dbEvent.title,
-		date: dbEvent.event_data,
+		date: dbEvent.eventDate,
 		description: dbEvent.description,
 		type: dbEvent.type,
-		isPublic: dbEvent.is_public,
-		isMandatory: dbEvent.is_mandatory,
-		locationId: dbEvent.location_id
+		isPublic: dbEvent.isPublic,
+		isMandatory: dbEvent.isMandatory,
+		locationId: dbEvent.locationId
 	}));
 
 	return json(events);
@@ -73,12 +73,12 @@ export async function POST({ request }) {
 		const event = {
 			id: dbEvent[0].id,
 			title: dbEvent[0].title,
-			date: dbEvent[0].event_date,
+			date: dbEvent[0].eventDate,
 			description: dbEvent[0].description,
 			type: dbEvent[0].type,
-			isPublic: dbEvent[0].is_public,
-			isMandatory: dbEvent[0].is_mandatory,
-			locationId: dbEvent[0].location_id
+			isPublic: dbEvent[0].isPublic,
+			isMandatory: dbEvent[0].isMandatory,
+			locationId: dbEvent[0].locationId
 		};
 
 		return json(event);
