@@ -4,6 +4,7 @@
     import type { Event, Location } from "$lib/types/event";
     import { EventType } from "$lib/types/event";
 	import type { Term } from "$lib/types/term";
+    import { whichWeek } from "$lib/date_computations";
 
     export let event: Event;
     export let term: Term;
@@ -12,15 +13,6 @@
     export let phase: boolean = false;
 
     dayjs.extend(isoWeek);
-
-    function whichWeek(term: Term, event: Event): number {
-        const eventDate = dayjs(event.date).hour(0).minute(0).second(0);
-        const termStartDate = dayjs(term.startDate).hour(0).minute(0).second(0);
-        const termStartWeekFirstDay = termStartDate.subtract(termStartDate.isoWeekday() - 1, "day");
-        const eventWeek = eventDate.diff(termStartWeekFirstDay, "week") + term.firstWeek;
-
-        return eventWeek;
-    }
 
     let date = dayjs(event.date).format("MMM DD");
     let week = whichWeek(term, event);
