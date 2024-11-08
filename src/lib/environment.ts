@@ -12,4 +12,4 @@ export const dbPassword = envVar.get('DB_PASSWORD').default('radar123').asString
 
 export const initDb = envVar.get('INIT_DB').default('true').asBool();
 
-export const seedDb = envVar.get('SEED_DB').default('false').asBool();
+export const seedDb = envVar.get('SEED_DB').default('true').asBool();
