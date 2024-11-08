@@ -14,10 +14,12 @@
     dayjs.extend(isoWeek);
 
     function whichWeek(term: Term, event: Event): number {
-        const weekOffset = dayjs(term.startDate).isoWeek() + term.firstWeek;
-        const eventDate = dayjs(event.date);
+        const eventDate = dayjs(event.date).hour(0).minute(0).second(0);
+        const termStartDate = dayjs(term.startDate).hour(0).minute(0).second(0);
+        const termStartWeekFirstDay = termStartDate.subtract(termStartDate.isoWeekday() - 1, "day");
+        const eventWeek = eventDate.diff(termStartWeekFirstDay, "week") + term.firstWeek;
 
-        return eventDate.isoWeek() - weekOffset;
+        return eventWeek;
     }
 
     let date = dayjs(event.date).format("MMM DD");
@@ -28,18 +30,18 @@
 <div class="flex flex-row max-w-60">
     {#if !phase}
         {#if firstInWeek}
-            <div class="flex items-center justify-center border-solid border border-gray-200 rounded-md bg-gray-100 text-gray-600 shadow-md min-w-11 max-w-11 min-h-11 max-h-11 text-center font-bold text-sm font-mono">W{week}</div>
+            <div class="flex items-center justify-center border-solid border border-gray-200 rounded-lg text-gray-600 shadow-md min-w-11 max-w-11 min-h-11 max-h-11 text-center font-bold text-sm font-mono" class:bg-white={!passed} class:bg-gray-100={passed}>W{week}</div>
         {:else}
             <div class="lg:min-w-11 lg:max-w-11 lg:min-h-11 lg:max-h-11"></div>
         {/if}
 
         {#if !emptyWeek}
             {#if event.type == EventType.Event}
-                <div class="pl-2"><i class="bi-calendar-event-fill text-gray-300" /></div>
+                <div class="pl-2"><i class="bi-calendar-event-fill text-sm text-gray-300" /></div>
             {:else if event.type == EventType.Checkpoint}
-                <div class="pl-2"><i class="bi-check-square-fill text-gray-300" /></div>
+                <div class="pl-2"><i class="bi-check-circle-fill text-sm text-techlabspink" /></div>
             {:else if event.type == EventType.Cutoff}
-                <div class="pl-2"><i class="bi-exclamation-square-fill text-gray-300" /></div>
+                <div class="pl-2"><i class="bi-exclamation-circle-fill text-sm text-techlabspink" /></div>
             {/if}
 
             <div class="flex flex-col pl-2">
